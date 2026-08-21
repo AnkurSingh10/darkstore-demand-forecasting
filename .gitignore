@@ -63,4 +63,5 @@ data/processed/*.parquet
 data/processed/*.json
 
 # Model artifacts
-models/
+# models/*.json
+models/*.pkl

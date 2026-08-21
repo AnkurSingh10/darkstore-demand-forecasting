@@ -1,0 +1,11 @@
+{
+  "department": "produce",
+  "sarima": {
+    "RMSE": 1590.39,
+    "MAPE (%)": 19.37
+  },
+  "prophet": {
+    "RMSE": 3621.28,
+    "MAPE (%)": 50.57
+  }
+}
