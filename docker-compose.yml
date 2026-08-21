@@ -1,0 +1,16 @@
+version: "3.8"
+
+services:
+  demand-forecasting-dashboard:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: demand_forecasting_dashboard
+    ports:
+      - "8501:8501"
+    volumes:
+      - ./data:/app/data
+      - ./models:/app/models
+    environment:
+      - PYTHONUNBUFFERED=1
+    restart: unless-stopped
