@@ -14,7 +14,7 @@ Dark stores need accurate next-day demand forecasts to decide how much inventory
 
 | Attribute | Detail |
 |---|---|
-| **Source** | [Instacart Market Basket Analysis](https://www.kaggle.com/c/instacart-market-basket-analysis/data) (Kaggle) |
+| **Source** | [Instacart Market Basket Analysis](https://www.kaggle.com/datasets/psparks/instacart-market-basket-analysis/data) (Kaggle) |
 | **Raw Records** | **33.8M** order-product items across **3.4M** orders |
 | **Departments** | 21 categories (produce, dairy, bakery, alcohol, etc.) |
 | **Temporal Coverage** | Synthetic daily calendar mapped to Jan 2024 – Dec 2024 (366 days) |
@@ -38,7 +38,42 @@ Raw CSVs → data_loader.py → daily_demand.parquet
                               ↓
               baseline_forecast.py (SARIMA / Prophet)
               xgboost_forecast.py  (XGBoost + engineered features)
+
 ```
+## Project Structure
+
+```
+dark-store-demand/
+├── data/
+│   ├── raw/                          # Instacart CSV files (not tracked in git)
+│   └── processed/                    # Parquet outputs (daily_demand, features, promo simulation)
+├── models/                           # Serialized model artifacts (.pkl) + metrics (.json)
+├── reports/                          # Generated plots and dashboard screenshots
+├── src/
+│   ├── config.py                     # Project paths configuration
+│   ├── data_loader.py                # Raw data ingestion & daily demand aggregation
+│   ├── features/
+│   │   └── build_features.py         # Lag, rolling, calendar, holiday feature engineering
+│   ├── models/
+│   │   ├── baseline_forecast.py      # SARIMA + Prophet baselines
+│   │   └── xgboost_forecast.py       # XGBoost with TimeSeriesSplit CV tuning
+│   ├── causal/
+│   │   ├── simulate_promo.py         # Synthetic promotional A/B experiment simulation
+│   │   └── diff_in_diff.py           # DiD panel OLS causal estimator
+│   └── dashboard/
+│       └── app.py                    # Streamlit interactive dashboard
+├── Dockerfile                        # Container image for dashboard deployment
+├── docker-compose.yml                # One-command Docker deployment
+├── requirements.txt                  # Python dependencies
+└── README.md
+```
+
+---
+
+## Tech Stack
+
+`Python` · `pandas` · `NumPy` · `XGBoost` · `statsmodels` · `scikit-learn` · `Streamlit` · `Plotly` · `Docker`
+
 
 ### Feature Engineering (14 features)
 
@@ -218,36 +253,3 @@ docker-compose up --build
 
 ---
 
-## Project Structure
-
-```
-dark-store-demand/
-├── data/
-│   ├── raw/                          # Instacart CSV files (not tracked in git)
-│   └── processed/                    # Parquet outputs (daily_demand, features, promo simulation)
-├── models/                           # Serialized model artifacts (.pkl) + metrics (.json)
-├── reports/                          # Generated plots and dashboard screenshots
-├── src/
-│   ├── config.py                     # Project paths configuration
-│   ├── data_loader.py                # Raw data ingestion & daily demand aggregation
-│   ├── features/
-│   │   └── build_features.py         # Lag, rolling, calendar, holiday feature engineering
-│   ├── models/
-│   │   ├── baseline_forecast.py      # SARIMA + Prophet baselines
-│   │   └── xgboost_forecast.py       # XGBoost with TimeSeriesSplit CV tuning
-│   ├── causal/
-│   │   ├── simulate_promo.py         # Synthetic promotional A/B experiment simulation
-│   │   └── diff_in_diff.py           # DiD panel OLS causal estimator
-│   └── dashboard/
-│       └── app.py                    # Streamlit interactive dashboard
-├── Dockerfile                        # Container image for dashboard deployment
-├── docker-compose.yml                # One-command Docker deployment
-├── requirements.txt                  # Python dependencies
-└── README.md
-```
-
----
-
-## Tech Stack
-
-`Python` · `pandas` · `NumPy` · `XGBoost` · `statsmodels` · `scikit-learn` · `Streamlit` · `Plotly` · `Docker`
