@@ -73,7 +73,7 @@ dark-store-demand/
 ## Tech Stack
 
 `Python` · `pandas` · `NumPy` · `XGBoost` · `statsmodels` · `scikit-learn` · `Streamlit` · `Plotly` · `Docker`
-
+---
 
 ### Feature Engineering (14 features)
 
@@ -202,7 +202,7 @@ Interactive Streamlit dashboard with three views:
 ### Prerequisites
 
 - **Python 3.11+**
-- Raw data from [Instacart Kaggle dataset](https://www.kaggle.com/c/instacart-market-basket-analysis/data) placed in `data/raw/`
+- Raw data from [Instacart Kaggle dataset](https://www.kaggle.com/datasets/psparks/instacart-market-basket-analysis/data) placed in `data/raw/`
 
 ### Setup
 
